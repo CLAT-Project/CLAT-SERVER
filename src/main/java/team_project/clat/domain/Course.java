@@ -20,9 +20,15 @@ public class Course {
 
     private String courseCode; //학수번호
 
+    private String courseName;
+
+    private String startDate;
+
+    private String endDate;
+
     private String room; //강의실
 
-    private String timeTable; //시간표
+    private String dayOfWeek; //시간표
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     List<Student_course> studentCourseList = new ArrayList<>();
@@ -33,9 +39,12 @@ public class Course {
 
 
 
-    public Course(String courseCode, String timeTable, String room) {
+    public Course(String courseCode, String courseName, String room, String startDate, String endDate, String dayOfWeek) {
         this.courseCode = courseCode;
-        this.timeTable = timeTable;
+        this.dayOfWeek = dayOfWeek;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.courseName = courseName;
         this.room = room;
     }
 
