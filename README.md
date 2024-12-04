@@ -9,7 +9,7 @@
 |                                      령원                                       |                                      웅애요                                      |                                    도그                                         |
 |:------------------------------------------------------------------------------:|:------------------------------------------------------------------------------:|:------------------------------------------------------------------------------:|
 |                                   DEVELOPER                                    |                                   DEVELOPER                                    |                                   DEVELOPER                                    |
-| <img src="https://github.com/user-attachments/assets/d2045545-b489-4df6-ac3b-c36361d7f831" width="250" /> | <img src="" width="250" /> | <img src="https://github.com/user-attachments/assets/d8e14666-f0a3-413a-b880-39649563567a" width="250" /> |
+| <img src="https://github.com/user-attachments/assets/d2045545-b489-4df6-ac3b-c36361d7f831" width="250" /> | <img src="https://github.com/user-attachments/assets/c5ef6f57-f083-49ec-a7cd-8c1074b66a31" width="250" /> | <img src="https://github.com/user-attachments/assets/d8e14666-f0a3-413a-b880-39649563567a" width="250" /> |
 |                     [kcsc2217](https://github.com/kcsc2217)                    |        [ensalada-de-pechuga](https://github.com/ensalada-de-pechuga)           |                     [AKKDevMachine](https://github.com/AKKDevMachine)          |            |
 
 <br><br>
@@ -56,19 +56,36 @@
 
 ## 🛠 기술스택
 
-### Backend
+### Languages
+![Java](https://img.shields.io/badge/Java-007396?style=flat-square&logo=java&logoColor=white)
 
-<img width="1056" alt="image" src="">
+### Frameworks
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?style=flat-square&logo=spring-boot&logoColor=white)
+![Spring Security](https://img.shields.io/badge/Spring%20Security-6DB33F?style=flat-square&logo=spring-security&logoColor=white)
+![Spring Data JPA](https://img.shields.io/badge/Spring%20Data%20JPA-6DB33F?style=flat-square&logo=spring&logoColor=white)
+![QueryDSL](https://img.shields.io/badge/QueryDSL-5C7F4E?style=flat-square&logo=querydsl&logoColor=white)
 
-### Infra
+### Testing
+![JUnit](https://img.shields.io/badge/JUnit-25A162?style=flat-square&logo=junit&logoColor=white)
 
-<img width="1056" alt="image" src="">
+### Databases
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=mysql&logoColor=white)
+![Redis](https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=redis&logoColor=white)
 
-<br><br>
+### Tools
+![IntelliJ IDEA](https://img.shields.io/badge/IntelliJ%20IDEA-000000?style=flat-square&logo=intellij-idea&logoColor=white)
+![Gradle](https://img.shields.io/badge/Gradle-02303A?style=flat-square&logo=gradle&logoColor=white)
+![Postman](https://img.shields.io/badge/Postman-FF6C37?style=flat-square&logo=postman&logoColor=white)
+![Notion](https://img.shields.io/badge/Notion-000000?style=flat-square&logo=notion&logoColor=white)
 
-## 프로젝트 아키텍쳐
+### Infrastructure
+![AWS EC2](https://img.shields.io/badge/AWS%20EC2-FF9900?style=flat-square&logo=amazonec2&logoColor=white)
+![AWS RDS](https://img.shields.io/badge/AWS%20RDS-527FFF?style=flat-square&logo=amazonrds&logoColor=white)
+![AWS S3](https://img.shields.io/badge/AWS%20S3-569A31?style=flat-square&logo=amazons3&logoColor=white)
+![nGrinder](https://img.shields.io/badge/nGrinder-2F6EB0?style=flat-square&logo=ngrinder&logoColor=white)
+![NGINX](https://img.shields.io/badge/NGINX-009639?style=flat-square&logo=nginx&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-000000?style=flat-square&logo=json-web-tokens&logoColor=white)
 
-<img width="1168" alt="image" src="https://github.com/user-attachments/assets/52a60eb7-014b-49ee-b293-484cf63f3ca0">
 
 <br><br>
 
