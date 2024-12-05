@@ -64,7 +64,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String password = loginReqDTO.getPassword();
 
         Member loginMember = memberRepository.findByUsername(username);
-        if(loginMember.getUserStatus()== UserStatus.INACTIVE){
+        if(loginMember!=null && loginMember.getUserStatus()== UserStatus.INACTIVE){
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401 Unauthorized
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
