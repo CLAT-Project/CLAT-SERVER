@@ -58,7 +58,7 @@ public class SecurityConfig {
 
                 CorsConfiguration configuration = new CorsConfiguration();
 
-                configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "https://c-lat.site", "https://clat-client.vercel.app", "https://chat-project-dun.vercel.app"));
+                configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "https://c-lat.site", "https://clat-client.vercel.app", "https://chat-project-one-sandy.vercel.app"));
                 configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                 configuration.setAllowedHeaders(Arrays.asList("Authorization", "access", "Content-Type","Set-Cookie"));
                 configuration.setAllowCredentials(true);
