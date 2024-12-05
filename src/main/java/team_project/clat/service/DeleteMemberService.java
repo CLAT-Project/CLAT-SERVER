@@ -10,6 +10,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import team_project.clat.domain.Enum.UserStatus;
+import team_project.clat.domain.Member;
 import team_project.clat.dto.request.DeleteMemberReqDTO;
 import team_project.clat.dto.response.CommonResultResDTO;
 import team_project.clat.dto.response.DeleteMemberResDTO;
@@ -38,7 +40,9 @@ public class DeleteMemberService {
                 Authentication authenticate = authenticationManager.authenticate(authToken);
                 //id, password 인증
                 if(authenticate.isAuthenticated()){
-                    memberRepository.deleteByUsername(username);
+                    Member deleteMember = memberRepository.findByUsername(username);
+                    deleteMember.memberUserStatusSet(UserStatus.INACTIVE);
+                    memberRepository.save(deleteMember);
 
                     boolean isExist = tokenRepository.existsById(username);
                     if (!isExist) {
