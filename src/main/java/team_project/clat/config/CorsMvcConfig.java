@@ -9,7 +9,7 @@ public class CorsMvcConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry corsRegistry) {
         corsRegistry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000", "https://clat.duckdns.org", "https://clat-client.vercel.app", "https://chat-project-one-sandy.vercel.app")
+                .allowedOrigins("http://localhost:3000", "https://clat.duckdns.org", "https://clat-client.vercel.app", "https://clat-project.vercel.app")
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("*")
                 .allowCredentials(true);
