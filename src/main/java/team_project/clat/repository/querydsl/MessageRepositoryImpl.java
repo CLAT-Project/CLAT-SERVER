@@ -73,8 +73,6 @@ public class MessageRepositoryImpl implements MessageRepositoryCustom{
             list.remove(pageable.getPageSize());
         }
 
-        Collections.reverse(list);
-
 
         return new SliceImpl<>(list,pageable,hasNext);
 
