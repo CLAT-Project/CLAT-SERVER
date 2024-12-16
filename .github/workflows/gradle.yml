@@ -63,7 +63,7 @@ jobs:
       with:
         host: ${{ secrets.EC2_IP }}
         username: ubuntu
-        key: ${{ secrets.EC2_PEM_KEY }}
+        key: ${{ secrets.EC2_SSH_KEY }}
         script: |
           docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/clat-server:${{ steps.short_sha.outputs.sha_short }}
           docker tag ${{ secrets.DOCKER_HUB_USERNAME }}/clat-server:${{ steps.short_sha.outputs.sha_short }} clat-server
