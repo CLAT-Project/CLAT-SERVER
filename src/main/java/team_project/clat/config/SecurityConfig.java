@@ -90,7 +90,7 @@ public class SecurityConfig {
                 .requestMatchers( "/chatRoom").hasRole("PROFESSOR")
                 .requestMatchers("/chatRoom/api/**").hasRole("PROFESSOR")
                 .requestMatchers("/reIssue", "/delete", "/member/findPwd").permitAll()
-                .anyRequest().authenticated());
+                .anyRequest().permitAll());
 
 
         http.addFilterBefore(new JwtFilter(jwtUtil), LoginFilter.class);
