@@ -85,12 +85,12 @@ public class SecurityConfig {
         //경로별 인가 작업
         http.authorizeHttpRequests((auth) -> auth
                 .requestMatchers("/ws/**").permitAll()
-                        .requestMatchers("/v3/api-docs/**","/api/image","/login", "/swagger-ui/**", "/","index.html", "/join","/verify-email", "/verification-code", "/idCheck", "/help/**", "/api/download","/logout").permitAll()
-                        .requestMatchers("/admin").hasRole("ADMIN")
-                        .requestMatchers( "/chatRoom").hasRole("PROFESSOR")
-                        .requestMatchers("/chatRoom/api/**").hasRole("PROFESSOR")
-                        .requestMatchers("/reIssue", "/delete", "/member/findPwd").permitAll()
-                        .anyRequest().authenticated());
+                .requestMatchers("/v3/api-docs/**","/api/image","/login", "/swagger-ui/**", "/","index.html", "/join","/verify-email", "/verification-code", "/idCheck", "/help/**", "/api/download","/logout").permitAll()
+                .requestMatchers("/admin").hasRole("ADMIN")
+                .requestMatchers( "/chatRoom").hasRole("PROFESSOR")
+                .requestMatchers("/chatRoom/api/**").hasRole("PROFESSOR")
+                .requestMatchers("/reIssue", "/delete", "/member/findPwd").permitAll()
+                .anyRequest().permitAll());
 
 
         http.addFilterBefore(new JwtFilter(jwtUtil), LoginFilter.class);
@@ -103,10 +103,11 @@ public class SecurityConfig {
 
         //세션 설정
         http.sessionManagement((session) -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
 
         return http.build();
     }
 
 }
+
