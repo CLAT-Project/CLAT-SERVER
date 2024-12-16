@@ -14,6 +14,7 @@ import team_project.clat.exception.MailVerifyException;
 import team_project.clat.repository.VerificationCodeRepository;
 
 import java.io.File;
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -87,5 +88,39 @@ public class EmailService {
         } catch (MessagingException e) {
             log.error("메일 발송 중 오류 발생", e);
         }
+    }
+
+    public String sendFindPasswordMail(String to, LocalDateTime sentAt) {
+
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setFrom(serviceEmail);
+        mailMessage.setTo(to);
+        mailMessage.setSubject(String.format("CLAT 비밀번호 찾기 서비스 For %s", to));
+
+        String tempPassword = generatePassword();
+        mailMessage.setText(tempPassword);
+
+        mailSender.send(mailMessage);
+
+        return tempPassword;
+    }
+
+    public static String generatePassword() {
+        String LOWER = "abcdefghijklmnopqrstuvwxyz";
+        String UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String DIGITS = "0123456789";
+        String SPECIAL = "!@#$%^&*()-_=+<>?";
+
+        String ALL_CHARACTERS = LOWER + UPPER + DIGITS + SPECIAL;
+
+        SecureRandom random = new SecureRandom();  // 보안 강한 난수 생성기
+        StringBuilder password = new StringBuilder();
+
+        for (int i = 0; i < 14; i++) {
+            int index = random.nextInt(ALL_CHARACTERS.length());
+            password.append(ALL_CHARACTERS.charAt(index));
+        }
+
+        return password.toString();
     }
 }

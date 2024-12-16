@@ -3,9 +3,11 @@ package team_project.clat.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import team_project.clat.domain.Enum.UserStatus;
 import team_project.clat.domain.Enum.UserType;
 
 import java.util.ArrayList;
@@ -35,6 +37,8 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private UserType userType;
 
+    @Enumerated(EnumType.STRING)
+    private UserStatus userStatus;
 
     // 신고하기 와 양방향 맵핑
     @OneToMany(mappedBy = "member" , cascade = CascadeType.ALL, orphanRemoval = true)
@@ -51,8 +55,8 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     List<Answer> answerList = new ArrayList<>();
 
-
-    public Member(Long id, String name, String username, String email, String password, String schoolName, String filePath, UserType userType) {
+    @Builder
+    public Member(Long id, String name, String username, String email, String password, String schoolName, String filePath, UserType userType, UserStatus userStatus) {
         this.id = id;
         this.name = name;
         this.username = username;
@@ -61,9 +65,10 @@ public class Member extends BaseEntity {
         this.schoolName = schoolName;
         this.filePath = filePath;
         this.userType = userType;
+        this.userStatus = userStatus;
     }
 
-    public static Member memberSet(String name, String username, String password, String schoolName, UserType userType, String filePath){
+    public static Member memberSet(String name, String username, String password, String schoolName, UserType userType, String filePath, UserStatus userStatus){
         Member member = new Member();
 
         member.name = name;
@@ -72,6 +77,7 @@ public class Member extends BaseEntity {
         member.schoolName = schoolName;
         member.userType = userType;
         member.filePath = filePath;
+        member.userStatus = userStatus;
 
         return member;
     }
@@ -83,6 +89,14 @@ public class Member extends BaseEntity {
         member.password = password;
         member.userType = UserType.fromRole(userType);
         return member;
+    }
+
+    public void memberPasswordSet(String password){
+        this.password=password;
+    }
+
+    public void memberUserStatusSet(UserStatus userStatus){
+        this.userStatus = userStatus;
     }
 
 }

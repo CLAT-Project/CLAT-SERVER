@@ -20,6 +20,7 @@ import team_project.clat.jwt.JwtFilter;
 import team_project.clat.jwt.JwtUtil;
 import team_project.clat.jwt.LoginFilter;
 import team_project.clat.jwt.CustomLogoutFilter;
+import team_project.clat.repository.MemberRepository;
 import team_project.clat.repository.TokenRepository;
 
 import java.util.Arrays;
@@ -35,6 +36,7 @@ public class SecurityConfig {
     private final JwtUtil jwtUtil;
     private final ObjectMapper objectMapper;
     private final TokenRepository tokenRepository;
+    private final MemberRepository memberRepository;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
@@ -58,7 +60,7 @@ public class SecurityConfig {
 
                 CorsConfiguration configuration = new CorsConfiguration();
 
-                configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "https://c-lat.site", "https://clat-client.vercel.app"));
+                configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "https://c-lat.site", "https://clat-client.vercel.app", "https://clat-project.vercel.app"));
                 configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                 configuration.setAllowedHeaders(Arrays.asList("Authorization", "access", "Content-Type","Set-Cookie"));
                 configuration.setAllowCredentials(true);
@@ -83,28 +85,29 @@ public class SecurityConfig {
         //경로별 인가 작업
         http.authorizeHttpRequests((auth) -> auth
                 .requestMatchers("/ws/**").permitAll()
-                        .requestMatchers("/v3/api-docs/**","/api/image","/login", "/swagger-ui/**", "/","index.html", "/join","/verify-email", "/verification-code", "/idCheck", "/help/**", "/api/download","/logout").permitAll()
-                        .requestMatchers("/admin").hasRole("ADMIN")
-                        .requestMatchers( "/chatRoom").hasRole("PROFESSOR")
-                        .requestMatchers("/chatRoom/api/**").hasRole("PROFESSOR")
-                        .requestMatchers("/reIssue", "/delete").permitAll()
-                        .anyRequest().permitAll());
+                .requestMatchers("/v3/api-docs/**","/api/image","/login", "/swagger-ui/**", "/","index.html", "/join","/verify-email", "/verification-code", "/idCheck", "/help/**", "/api/download","/logout").permitAll()
+                .requestMatchers("/admin").hasRole("ADMIN")
+                .requestMatchers( "/chatRoom").hasRole("PROFESSOR")
+                .requestMatchers("/chatRoom/api/**").hasRole("PROFESSOR")
+                .requestMatchers("/reIssue", "/delete", "/member/findPwd").permitAll()
+                .anyRequest().authenticated());
 
 
         http.addFilterBefore(new JwtFilter(jwtUtil), LoginFilter.class);
 
 
         //AuthenticationManager()와 JWTUtil 인수 전달
-        http.addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, objectMapper, tokenRepository), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, objectMapper, tokenRepository, memberRepository), UsernamePasswordAuthenticationFilter.class);
 
         http.addFilterBefore(new CustomLogoutFilter(jwtUtil, tokenRepository, objectMapper), LogoutFilter.class);
 
         //세션 설정
         http.sessionManagement((session) -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
 
         return http.build();
     }
 
 }
+

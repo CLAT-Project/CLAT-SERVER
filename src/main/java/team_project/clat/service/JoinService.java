@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import team_project.clat.domain.Enum.UserStatus;
 import team_project.clat.domain.Enum.UserType;
 import team_project.clat.domain.Member;
 import team_project.clat.domain.Token;
@@ -69,7 +70,7 @@ public class JoinService {
             file.transferTo(new File(fullPath));
         }
 
-        Member member = Member.memberSet(name, username, bCryptPasswordEncoder.encode(password), schoolName, userType, fullPath);
+        Member member = Member.memberSet(name, username, bCryptPasswordEncoder.encode(password), schoolName, userType, fullPath, UserStatus.ACTIVE);
 
         try {
             memberRepository.save(member);

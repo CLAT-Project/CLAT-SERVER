@@ -1,5 +1,6 @@
 package team_project.clat.jwt;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -18,9 +19,13 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.util.StreamUtils;
+import team_project.clat.domain.Enum.UserStatus;
+import team_project.clat.domain.Member;
 import team_project.clat.domain.Token;
 import team_project.clat.dto.response.CommonResultResDTO;
 import team_project.clat.dto.request.LoginReqDTO;
+import team_project.clat.exception.UnAuthorizationException;
+import team_project.clat.repository.MemberRepository;
 import team_project.clat.repository.TokenRepository;
 
 import java.io.IOException;
@@ -36,6 +41,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     private final JwtUtil jwtUtil;
     private final ObjectMapper objectMapper;
     private final TokenRepository tokenRepository;
+    private final MemberRepository memberRepository;
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
@@ -56,6 +62,25 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         String username = loginReqDTO.getUsername();
         String password = loginReqDTO.getPassword();
+
+        Member loginMember = memberRepository.findByUsername(username);
+        if(loginMember!=null && loginMember.getUserStatus()== UserStatus.INACTIVE){
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401 Unauthorized
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+
+            CommonResultResDTO responseDto = new CommonResultResDTO("401 Unauthorized", "이미 탈퇴한 사용자입니다.");
+            try {
+                // 응답에 JSON 형태로 반환
+                String jsonResponse = objectMapper.writeValueAsString(responseDto);
+                response.getWriter().write(jsonResponse);
+            } catch (IOException ex) {
+                throw new RuntimeException("로그인 응답 작성 실패", ex);
+            }
+
+            // 다음 필터로 넘어가지 못하도록 필터 종료
+            return null;
+        }
 
         log.info("username : {}", username);
 
