@@ -1,4 +1,4 @@
-package team_project.clat.dto.request;
+package team_project.clat.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class MemberReqDTO {
+public class MemberResDTO {
 
     private String name;
     private String username;
