@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import team_project.clat.domain.Member;
 import team_project.clat.dto.request.FindMemberPasswordReqDTO;
 import team_project.clat.dto.response.MemberResDTO;
+import team_project.clat.dto.response.MyProfileResDTO;
 import team_project.clat.dto.response.CommonResultResDTO;
 import team_project.clat.jwt.JwtUtil;
 import team_project.clat.repository.MemberRepository;
@@ -24,16 +25,16 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/my-profile")
-    public ResponseEntity<MemberResDTO> findMember(HttpServletRequest request){
+    public ResponseEntity<MyProfileResDTO> profileMember(HttpServletRequest request){
         String accessToken = request.getHeader("access");
         String username = jwtUtil.getUsername(accessToken);
         String userType = jwtUtil.getUserType(accessToken);
 
         Member findMember = memberRepository.findByUsername(username);
 
-        MemberResDTO memberResDTO = new MemberResDTO(username, findMember.getName(), findMember.getSchoolName(), userType);
+        MyProfileResDTO myProfileResDTO = new MyProfileResDTO(username, findMember.getName(), findMember.getSchoolName(), userType);
 
-        return new ResponseEntity<>(memberResDTO, HttpStatus.OK);
+        return new ResponseEntity<>(myProfileResDTO, HttpStatus.OK);
     }
 
     @PostMapping("/member/findPwd")
@@ -41,5 +42,10 @@ public class MemberController {
         memberService.findMemberPassword(findMemberPasswordReqDTO);
         CommonResultResDTO commonResultResDTO = new CommonResultResDTO("200 OK", "임시 비밀번호 발급이 완료되었습니다.");
         return new ResponseEntity<>(commonResultResDTO, HttpStatus.OK);
+    }
+
+    @PostMapping("/member")
+    public ResponseEntity<?> findMember(HttpServletRequest request){
+        return new ResponseEntity<>(memberService.findMember(request), HttpStatus.OK);
     }
 }

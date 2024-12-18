@@ -7,7 +7,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class MemberResDTO {
-    private Long id;
+public class MyProfileResDTO {
+
+    private String name;
     private String username;
+    private String schoolName;
+    private String UserType;
+
 }
