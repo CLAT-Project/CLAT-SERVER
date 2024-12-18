@@ -44,7 +44,7 @@ public class MemberController {
         return new ResponseEntity<>(commonResultResDTO, HttpStatus.OK);
     }
 
-    @PostMapping("/member")
+    @GetMapping("/member")
     public ResponseEntity<?> findMember(HttpServletRequest request){
         return new ResponseEntity<>(memberService.findMember(request), HttpStatus.OK);
     }
