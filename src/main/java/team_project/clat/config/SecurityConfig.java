@@ -87,10 +87,9 @@ public class SecurityConfig {
                 .requestMatchers("/ws/**").permitAll()
                 .requestMatchers("/v3/api-docs/**","/api/image","/login", "/swagger-ui/**", "/","index.html", "/join","/verify-email", "/verification-code", "/idCheck", "/help/**", "/api/download","/logout").permitAll()
                 .requestMatchers("/admin").hasRole("ADMIN")
-                .requestMatchers( "/chatRoom").hasRole("PROFESSOR")
                 .requestMatchers("/chatRoom/api/**").hasRole("PROFESSOR")
                 .requestMatchers("/reIssue", "/delete", "/member/findPwd").permitAll()
-                .anyRequest().authenticated());
+                .anyRequest().permitAll());
 
 
         http.addFilterBefore(new JwtFilter(jwtUtil), LoginFilter.class);
