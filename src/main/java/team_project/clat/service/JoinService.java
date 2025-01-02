@@ -63,7 +63,7 @@ public class JoinService {
             return null;
         }
 
-        String fileDir = "/home/ubuntu/upload/";
+        String fileDir = "/app/upload/";
         String fullPath = null;
         if(!file.isEmpty()){
             fullPath = fileDir + file.getOriginalFilename();
