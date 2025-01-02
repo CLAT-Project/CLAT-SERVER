@@ -71,6 +71,7 @@ jobs:
           docker run -d --name clat-server \
           -e TZ=Asia/Seoul -e SPRING_PROFILES_ACTIVE=ec2-dev \
           -v ~/clat-service-logs:/home/clat-service-logs \
+          -v /home/ubuntu/upload:/app/upload \
           -p 8081:8081 ${{ secrets.DOCKER_HUB_USERNAME }}/clat-server:${{ steps.short_sha.outputs.sha_short }}
 
 
