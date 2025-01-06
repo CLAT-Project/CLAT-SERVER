@@ -33,7 +33,7 @@ public class ReportService {
     String email = member.getEmail();
 
     // 만약 입력한 이메일이 있다면 그 이메일이 우선
-    if (!reportDTO.getEmail().isEmpty()) {
+    if (reportDTO.getEmail() != null && !reportDTO.getEmail().isEmpty()) {
       email = reportDTO.getEmail();
     }
 
