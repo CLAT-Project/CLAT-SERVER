@@ -2,10 +2,7 @@ package team_project.clat.domain;
 
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import team_project.clat.domain.Enum.UserStatus;
 import team_project.clat.domain.Enum.UserType;
@@ -14,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Setter
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED) //기본생성자 protected로
 @Slf4j
