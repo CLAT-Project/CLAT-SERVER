@@ -14,7 +14,17 @@ public enum ErrorCode {
   NULL_EMAIL_INPUT(
           HttpStatus.NOT_FOUND,
           4001,
-          "답변이 이메일로 전달됩니다. 이메일을 반드시 입력해주세요.");
+          "답변이 이메일로 전달됩니다. 이메일을 반드시 입력해주세요."),
+
+  WRONG_PASSWORD(
+          HttpStatus.NOT_FOUND,
+          4002,
+          "잘못된 비밀번호입니다."),
+
+  NOT_AUTHENTICATED(
+          HttpStatus.NOT_FOUND,
+          4003,
+          "인증이 완료되지 않았습니다. 인증 완료 후 다시 시도해주세요.");
 
   private final HttpStatus httpStatus;
   private final Integer errorCode;

@@ -18,20 +18,15 @@ import team_project.clat.repository.MemberRepository;
 public class ProfileService {
   private final MemberRepository memberRepository;
   private final PasswordEncoder passwordEncoder;
-  private final EmailService emailService;
 
-  public boolean authenticationPassword(Long memberId, String password) {
-    Member member = memberRepository.findById(memberId)
-            .orElseThrow(() -> new GlobalException(ErrorCode.PAGE_NOT_FOUND));
+  @Transactional
+  public boolean authenticationPassword(Member member, String password) {
     return passwordEncoder.matches(password, member.getPassword());
   }
 
-  public Member updateProfile(Long memberId, UpdateProfileReqDTO updateProfileDTO, boolean emailVerified) {
-      Member member = memberRepository.findById(memberId)
-              .orElseThrow(() -> new RuntimeException("User not found"));
-
+  public Member updateProfile(Member member, UpdateProfileReqDTO updateProfileDTO, boolean emailVerified) {
       if (updateProfileDTO.getName() != null) {
-        member.setUsername(updateProfileDTO.getName());
+        member.setName(updateProfileDTO.getName());
       }
 
       if (updateProfileDTO.getPassword() != null) {
@@ -40,7 +35,7 @@ public class ProfileService {
 
       if (updateProfileDTO.getEmail() != null) {
         if (!emailVerified) {
-          throw new RuntimeException("Email verification required before changing email.");
+          throw new GlobalException(ErrorCode.NOT_AUTHENTICATED);
         }
         member.setEmail(updateProfileDTO.getEmail());
       }
