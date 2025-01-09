@@ -24,19 +24,6 @@ public class MemberController {
     private final MemberRepository memberRepository;
     private final MemberService memberService;
 
-    @GetMapping("/my-profile")
-    public ResponseEntity<MyProfileResDTO> profileMember(HttpServletRequest request){
-        String accessToken = request.getHeader("access");
-        String username = jwtUtil.getUsername(accessToken);
-        String userType = jwtUtil.getUserType(accessToken);
-
-        Member findMember = memberRepository.findByUsername(username);
-
-        MyProfileResDTO myProfileResDTO = new MyProfileResDTO(username, findMember.getName(), findMember.getSchoolName(), userType);
-
-        return new ResponseEntity<>(myProfileResDTO, HttpStatus.OK);
-    }
-
     @PostMapping("/member/findPwd")
     public ResponseEntity<?> findMemberPassword(@RequestBody FindMemberPasswordReqDTO findMemberPasswordReqDTO){
         memberService.findMemberPassword(findMemberPasswordReqDTO);
