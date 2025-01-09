@@ -26,8 +26,8 @@ public class SocialClientRegistration {
     public ClientRegistration googleClientRegistration() {
 
         return ClientRegistration.withRegistrationId("google")
-                .clientId("아이디")
-                .clientSecret("비밀번호")
+                .clientId("52474534592-p74ookn70s1m2l1qjqvf66u63bslcglu.apps.googleusercontent.com")
+                .clientSecret("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")
                 .redirectUri("http://localhost:8080/login/oauth2/code/google")
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .scope("profile", "email")
