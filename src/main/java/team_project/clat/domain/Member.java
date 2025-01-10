@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Setter
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED) //기본생성자 protected로
 @Slf4j
@@ -90,11 +89,14 @@ public class Member extends BaseEntity {
     }
 
     public void memberPasswordSet(String password){
-        this.password=password;
+        this.password = password;
     }
 
     public void memberUserStatusSet(UserStatus userStatus){
         this.userStatus = userStatus;
     }
 
+    public void memberNameSet(String name) { this.name = name; }
+
+    public void memberEmailSet(String email) { this.email = email; }
 }

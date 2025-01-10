@@ -37,7 +37,7 @@ public class ProfileController {
 
     Member findMember = memberRepository.findByUsername(username);
 
-    MyProfileResDTO myProfileResDTO = new MyProfileResDTO(username, findMember.getName(), findMember.getSchoolName(), userType);
+    MyProfileResDTO myProfileResDTO = new MyProfileResDTO(username, findMember.getName(), findMember.getEmail(), findMember.getSchoolName(), userType, findMember.getPassword());
 
     return new ResponseEntity<>(myProfileResDTO, HttpStatus.OK);
   }
