@@ -26,18 +26,18 @@ public class ProfileService {
 
   public Member updateProfile(Member member, UpdateProfileReqDTO updateProfileDTO, boolean emailVerified) {
       if (updateProfileDTO.getName() != null) {
-        member.setName(updateProfileDTO.getName());
+        member.memberNameSet(updateProfileDTO.getName());
       }
 
       if (updateProfileDTO.getPassword() != null) {
-        member.setPassword(passwordEncoder.encode(updateProfileDTO.getPassword()));
+        member.memberPasswordSet(passwordEncoder.encode(updateProfileDTO.getPassword()));
       }
 
       if (updateProfileDTO.getEmail() != null) {
         if (!emailVerified) {
           throw new GlobalException(ErrorCode.NOT_AUTHENTICATED);
         }
-        member.setEmail(updateProfileDTO.getEmail());
+        member.memberEmailSet(updateProfileDTO.getEmail());
       }
 
       return memberRepository.save(member);
