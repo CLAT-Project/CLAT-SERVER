@@ -9,8 +9,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class MyProfileResDTO {
 
-    private String name;
     private String username;
+    private String name;
     private String email;
     private String schoolName;
     private String UserType;
