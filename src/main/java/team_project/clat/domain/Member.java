@@ -99,4 +99,12 @@ public class Member extends BaseEntity {
         this.userStatus = userStatus;
     }
 
+    public void memberNameSet(String name){
+        this.name = name;
+    }
+
+    public void memberEmailSet(String email){
+        this.email = email;
+    }
+
 }

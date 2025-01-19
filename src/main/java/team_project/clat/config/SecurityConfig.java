@@ -17,10 +17,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import team_project.clat.config.handler.CustomSuccessHandler;
 import team_project.clat.jwt.JwtFilter;
 import team_project.clat.jwt.JwtUtil;
 import team_project.clat.jwt.LoginFilter;
 import team_project.clat.jwt.CustomLogoutFilter;
+import team_project.clat.oauth2.CustomClientRegistrationRepository;
 import team_project.clat.repository.MemberRepository;
 import team_project.clat.repository.TokenRepository;
 import team_project.clat.service.CustomOAuth2UserService;
@@ -40,6 +42,8 @@ public class SecurityConfig {
     private final TokenRepository tokenRepository;
     private final MemberRepository memberRepository;
     private final CustomOAuth2UserService customOAuth2UserService;
+    private final CustomSuccessHandler customSuccessHandler;
+    private final CustomClientRegistrationRepository customClientRegistrationRepository;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
@@ -87,8 +91,10 @@ public class SecurityConfig {
 
         //oauth2
         http.oauth2Login((oauth2) -> oauth2
+                .clientRegistrationRepository(customClientRegistrationRepository.clientRegistrationRepository())
                 .userInfoEndpoint((userInfoEndpointConfig) -> userInfoEndpointConfig
-                        .userService(customOAuth2UserService)));
+                        .userService(customOAuth2UserService))
+                .successHandler(customSuccessHandler));
 
         //경로별 인가 작업
         http.authorizeHttpRequests((auth) -> auth
