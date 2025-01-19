@@ -28,7 +28,7 @@ public class SocialClientRegistration {
         return ClientRegistration.withRegistrationId("google")
                 .clientId("52474534592-p74ookn70s1m2l1qjqvf66u63bslcglu.apps.googleusercontent.com")
                 .clientSecret("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")
-                .redirectUri("http://localhost:8080/login/oauth2/code/google")
+                .redirectUri("https://clat.duckdns.org/login/oauth2/code/google")
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .scope("profile", "email")
                 .authorizationUri("https://accounts.google.com/o/oauth2/v2/auth")
