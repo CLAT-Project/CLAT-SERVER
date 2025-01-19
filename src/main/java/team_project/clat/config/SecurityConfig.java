@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -16,12 +17,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import team_project.clat.config.handler.CustomSuccessHandler;
 import team_project.clat.jwt.JwtFilter;
 import team_project.clat.jwt.JwtUtil;
 import team_project.clat.jwt.LoginFilter;
 import team_project.clat.jwt.CustomLogoutFilter;
+import team_project.clat.oauth2.CustomClientRegistrationRepository;
 import team_project.clat.repository.MemberRepository;
 import team_project.clat.repository.TokenRepository;
+import team_project.clat.service.CustomOAuth2UserService;
 
 import java.util.Arrays;
 import java.util.List;
@@ -37,6 +41,9 @@ public class SecurityConfig {
     private final ObjectMapper objectMapper;
     private final TokenRepository tokenRepository;
     private final MemberRepository memberRepository;
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final CustomSuccessHandler customSuccessHandler;
+    private final CustomClientRegistrationRepository customClientRegistrationRepository;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
@@ -81,6 +88,13 @@ public class SecurityConfig {
 
         //http basic 인증 방식 disable
         http.httpBasic((auth) -> auth.disable());
+
+        //oauth2
+        http.oauth2Login((oauth2) -> oauth2
+                .clientRegistrationRepository(customClientRegistrationRepository.clientRegistrationRepository())
+                .userInfoEndpoint((userInfoEndpointConfig) -> userInfoEndpointConfig
+                        .userService(customOAuth2UserService))
+                .successHandler(customSuccessHandler));
 
         //경로별 인가 작업
         http.authorizeHttpRequests((auth) -> auth

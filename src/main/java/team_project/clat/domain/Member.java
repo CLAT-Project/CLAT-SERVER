@@ -99,4 +99,5 @@ public class Member extends BaseEntity {
     public void memberNameSet(String name) { this.name = name; }
 
     public void memberEmailSet(String email) { this.email = email; }
+
 }
