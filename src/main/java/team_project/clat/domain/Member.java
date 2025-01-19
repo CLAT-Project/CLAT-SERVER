@@ -2,10 +2,7 @@ package team_project.clat.domain;
 
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import team_project.clat.domain.Enum.UserStatus;
 import team_project.clat.domain.Enum.UserType;
@@ -92,19 +89,15 @@ public class Member extends BaseEntity {
     }
 
     public void memberPasswordSet(String password){
-        this.password=password;
+        this.password = password;
     }
 
     public void memberUserStatusSet(UserStatus userStatus){
         this.userStatus = userStatus;
     }
 
-    public void memberNameSet(String name){
-        this.name = name;
-    }
+    public void memberNameSet(String name) { this.name = name; }
 
-    public void memberEmailSet(String email){
-        this.email = email;
-    }
+    public void memberEmailSet(String email) { this.email = email; }
 
 }

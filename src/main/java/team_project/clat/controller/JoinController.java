@@ -17,21 +17,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 
-import team_project.clat.domain.Token;
 import team_project.clat.dto.response.CommonResultResDTO;
-import team_project.clat.dto.request.EmailReqDTO;
 import team_project.clat.dto.request.JoinReqDTO;
 import team_project.clat.dto.response.JoinResDTO;
-import team_project.clat.dto.response.JoinResultResDTO;
-import team_project.clat.repository.TokenRepository;
-import team_project.clat.service.EmailService;
 import team_project.clat.service.JoinService;
 
-import team_project.clat.jwt.JwtUtil;
-
-import java.io.File;
 import java.io.IOException;
-import java.time.LocalDateTime;
 
 @Controller
 @ResponseBody
@@ -40,27 +31,10 @@ import java.time.LocalDateTime;
 public class JoinController {
 
     private final JoinService joinService;
-    private final EmailService emailService;
 
     @PostMapping("/idCheck")
     public ResponseEntity<CommonResultResDTO> isDuplicateUsername(@RequestBody JoinReqDTO joinReqDTO){
         return joinService.existsByUsername(joinReqDTO);
-    }
-
-    @PostMapping("/verify-email")
-    public ResponseEntity<CommonResultResDTO> getEmailForVerification(@RequestBody EmailReqDTO.EmailForVerificationRequest request){
-        LocalDateTime requestedAt = LocalDateTime.now();
-        emailService.sendSimpleVerificationMail(request.getEmail(), requestedAt);
-        CommonResultResDTO commonResultResDTO = new CommonResultResDTO("200 OK", "메일이 발송되었습니다.");
-        return new ResponseEntity<>(commonResultResDTO, HttpStatus.OK);
-    }
-
-    @PostMapping("/verification-code")
-    public ResponseEntity<CommonResultResDTO> verificationByCode(@RequestBody EmailReqDTO.VerificationCodeRequest request) {
-        LocalDateTime requestedAt = LocalDateTime.now();
-        emailService.verifyCode(request.getEmail(), request.getCode(), requestedAt);
-        CommonResultResDTO commonResultResDTO = new CommonResultResDTO("200 OK", "인증이 완료되었습니다.");
-        return new ResponseEntity<>(commonResultResDTO, HttpStatus.OK);
     }
 
     @PostMapping("/join")

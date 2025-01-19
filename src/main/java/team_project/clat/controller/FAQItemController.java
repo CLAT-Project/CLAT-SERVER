@@ -29,7 +29,7 @@ public class FAQItemController {
   }
 
   @PutMapping("/modify/{faqId}")
-  public ResponseEntity<FAQItem> updateProject(
+  public ResponseEntity<FAQItem> updateFAQItem(
           @PathVariable("faqId")Long faqId,
           @RequestBody FAQItem faqItem
   ) {
