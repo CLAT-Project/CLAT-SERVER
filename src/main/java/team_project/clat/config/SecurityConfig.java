@@ -67,7 +67,7 @@ public class SecurityConfig {
 
                 CorsConfiguration configuration = new CorsConfiguration();
 
-                configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "wss://clat.duckdns.org", "https://clat.duckdns.org", "https://clat-project.vercel.app", "https://nid.naver.com"));
+                configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "wss://clat.duckdns.org", "https://clat.duckdns.org", "https://clat-project.vercel.app"));
                 configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                 configuration.setAllowedHeaders(Arrays.asList("Authorization", "access", "Content-Type","Set-Cookie"));
                 configuration.setAllowCredentials(true);
