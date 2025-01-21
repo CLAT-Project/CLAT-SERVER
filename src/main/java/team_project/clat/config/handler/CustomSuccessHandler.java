@@ -45,6 +45,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         responseBody.put("username", username);  // username
         responseBody.put("name", name);
         responseBody.put("email", email);
+        response.sendRedirect("https://clat-project.vercel.app/social-login");
 
         // ObjectMapper를 사용하여 JSON으로 변환 후 응답으로 작성
         ObjectMapper objectMapper = new ObjectMapper();
