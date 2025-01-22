@@ -1,5 +1,6 @@
 package team_project.clat.oauth2;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
@@ -8,6 +9,7 @@ import org.springframework.security.oauth2.core.oidc.IdTokenClaimNames;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class SocialClientRegistration {
 
     @Value("{oauth2.google.client-secret}")
@@ -32,6 +34,8 @@ public class SocialClientRegistration {
     }
 
     public ClientRegistration googleClientRegistration() {
+
+        log.info("clientSecret : {}", googleSecret);
 
         return ClientRegistration.withRegistrationId("google")
                 .clientId("52474534592-p74ookn70s1m2l1qjqvf66u63bslcglu.apps.googleusercontent.com")
