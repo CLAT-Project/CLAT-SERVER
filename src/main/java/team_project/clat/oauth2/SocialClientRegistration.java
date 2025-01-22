@@ -12,10 +12,10 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class SocialClientRegistration {
 
-    @Value("{oauth2.google.client-secret}")
+    @Value("${oauth2.google.client-secret}")
     String googleSecret;
 
-    @Value("{oauth2.naver.client-secret}")
+    @Value("${oauth2.naver.client-secret}")
     String naverSecret;
 
     public ClientRegistration naverClientRegistration() {
