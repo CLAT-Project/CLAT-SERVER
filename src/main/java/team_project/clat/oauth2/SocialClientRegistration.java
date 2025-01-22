@@ -3,6 +3,7 @@ package team_project.clat.oauth2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
+import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.oidc.IdTokenClaimNames;
 import org.springframework.stereotype.Component;
 
@@ -35,6 +36,7 @@ public class SocialClientRegistration {
         return ClientRegistration.withRegistrationId("google")
                 .clientId("52474534592-p74ookn70s1m2l1qjqvf66u63bslcglu.apps.googleusercontent.com")
                 .clientSecret(googleSecret)
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
                 .redirectUri("https://clat.duckdns.org/login/oauth2/code/google")
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .scope("profile", "email")
