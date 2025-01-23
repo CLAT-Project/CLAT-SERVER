@@ -36,7 +36,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         // 여기서부터 성공 flag 및 소셜 유저 정보 json 응답 코드 작성
         // 응답 객체 설정
-        response.setStatus(HttpServletResponse.SC_OK);  // 200 OK 응답 설정
+        /*response.setStatus(HttpServletResponse.SC_OK);  // 200 OK 응답 설정
         response.setContentType("application/json");  // 응답 타입을 JSON으로 설정
 
         // JSON 형식으로 성공 flag 및 username 반환
@@ -51,6 +51,13 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonResponse = objectMapper.writeValueAsString(responseBody);
 
-        response.getWriter().write(jsonResponse);  // 응답 전송
+        response.getWriter().write(jsonResponse);  // 응답 전송*/
+
+        // 리디렉션 URL 설정
+        String redirectUrl = "https://clat-project.vercel.app/social-login";
+        redirectUrl += "?success=true&username=" + username + "&name=" + name + "&email=" + email;
+
+        // 리디렉션
+        response.sendRedirect(redirectUrl);
     }
 }
