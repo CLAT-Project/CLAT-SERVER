@@ -8,6 +8,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.util.UriComponentsBuilder;
 import team_project.clat.dto.CustomOAuth2User;
 
 import java.io.IOException;
@@ -59,5 +62,22 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         // 리디렉션
         response.sendRedirect(redirectUrl);
+
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add("success", "true");
+        queryParams.add("username", username);
+        queryParams.add("name", name);
+        queryParams.add("email", email);
+
+        String uri = UriComponentsBuilder
+                .newInstance()
+                .scheme("https")
+                .host("clat-project.vercel.app")
+                .path("/social-login")
+                .queryParams(queryParams)
+                .build()
+                .toString();
+
+        getRedirectStrategy().sendRedirect(request,response,uri);
     }
 }
