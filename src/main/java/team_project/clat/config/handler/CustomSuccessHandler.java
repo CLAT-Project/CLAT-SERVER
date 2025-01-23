@@ -14,6 +14,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import team_project.clat.dto.CustomOAuth2User;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -56,17 +58,19 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         response.getWriter().write(jsonResponse);  // 응답 전송*/
 
-        // 리디렉션 URL 설정
+       /* // 리디렉션 URL 설정
         String redirectUrl = "https://clat-project.vercel.app/social-login";
-        redirectUrl += "?success=true&username=" + username + "&name=" + name + "&email=" + email;
+        redirectUrl += "?success=true&username=" + username + "&name=" + name + "&email=" + email;*/
 
-        // 리디렉션
-        response.sendRedirect(redirectUrl);
+       /* // 리디렉션
+        response.sendRedirect(redirectUrl);*/
+
+        String encodedName = URLEncoder.encode(name, StandardCharsets.UTF_8);
 
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("success", "true");
         queryParams.add("username", username);
-        queryParams.add("name", name);
+        queryParams.add("name", encodedName);
         queryParams.add("email", email);
 
         String uri = UriComponentsBuilder
