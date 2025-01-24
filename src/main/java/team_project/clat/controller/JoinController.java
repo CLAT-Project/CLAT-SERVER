@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 
+import team_project.clat.dto.request.SocialJoinReqDTO;
 import team_project.clat.dto.response.CommonResultResDTO;
 import team_project.clat.dto.request.JoinReqDTO;
 import team_project.clat.dto.response.JoinResDTO;
@@ -50,6 +51,32 @@ public class JoinController {
         }
 
         JoinResDTO joinResDTO = joinService.joinProcess(joinReqDTO, file);
+        if(joinResDTO==null){
+            CommonResultResDTO commonResultResDTO = new CommonResultResDTO("409 Conflict", "중복된 ID가 존재합니다.");
+            return new ResponseEntity<>(commonResultResDTO, HttpStatus.CONFLICT);
+        }
+
+        //응답 설정
+        response.setHeader("access", joinResDTO.getAccess());
+        response.setHeader(HttpHeaders.SET_COOKIE, createCookie("refresh", joinResDTO.getRefresh()).toString());
+        response.setStatus(HttpStatus.OK.value());
+
+        return new ResponseEntity<>(joinResDTO.getJoinResultResDTO(), HttpStatus.OK);
+    }
+
+    @PostMapping("/social-join")
+    public ResponseEntity<?> socialJoinProcess(@Valid @RequestPart SocialJoinReqDTO socialJoinReqDTO,
+                                               BindingResult bindingResult,
+                                               @RequestPart MultipartFile file,
+                                               HttpServletResponse response) throws IOException {
+
+        if(bindingResult.hasErrors()){
+            String errorMessage = bindingResult.getAllErrors().get(0).getDefaultMessage();
+            CommonResultResDTO commonResultResDTO = new CommonResultResDTO("400 BAD_REQUEST", errorMessage);
+            return new ResponseEntity<>(commonResultResDTO, HttpStatus.BAD_REQUEST);
+        }
+
+        JoinResDTO joinResDTO = joinService.SocialJoinProcess(socialJoinReqDTO, file);
         if(joinResDTO==null){
             CommonResultResDTO commonResultResDTO = new CommonResultResDTO("409 Conflict", "중복된 ID가 존재합니다.");
             return new ResponseEntity<>(commonResultResDTO, HttpStatus.CONFLICT);

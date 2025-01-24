@@ -50,4 +50,6 @@ public class CustomOAuth2User implements OAuth2User {
     public String getEmail() {
         return oAuthMemberReqDTO.getEmail();
     }
+
+    public String getExistFlag() { return oAuthMemberReqDTO.getExistFlag(); }
 }
