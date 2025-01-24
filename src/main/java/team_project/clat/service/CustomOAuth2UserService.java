@@ -55,6 +55,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             authMemberReqDTO.setUsername(username);
             authMemberReqDTO.setName(oAuth2Response.getName());
             authMemberReqDTO.setEmail(oAuth2Response.getEmail());
+            authMemberReqDTO.setExistFlag("no");
 
             return new CustomOAuth2User(authMemberReqDTO);
         }else {
@@ -68,6 +69,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             authMemberReqDTO.setUsername(existMember.getUsername());
             authMemberReqDTO.setName(oAuth2Response.getName());
             authMemberReqDTO.setEmail(oAuth2Response.getEmail());
+            authMemberReqDTO.setExistFlag("yes");
 
             return new CustomOAuth2User(authMemberReqDTO);
 

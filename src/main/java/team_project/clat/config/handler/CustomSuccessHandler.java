@@ -4,6 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -11,7 +15,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
+import team_project.clat.domain.Token;
 import team_project.clat.dto.CustomOAuth2User;
+import team_project.clat.jwt.JwtUtil;
+import team_project.clat.repository.TokenRepository;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -22,7 +29,11 @@ import java.util.Iterator;
 import java.util.Map;
 
 @Component
+@RequiredArgsConstructor
 public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+
+    private final JwtUtil jwtUtil;
+    private final TokenRepository tokenRepository;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -33,55 +44,58 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String username = customUserDetails.getUsername();
         String email = customUserDetails.getEmail();
         String name = customUserDetails.getName();
+        String existFlag = customUserDetails.getExistFlag();
 
-        /*Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
         GrantedAuthority auth = iterator.next();
-        String role = auth.getAuthority();*/
+        String role = auth.getAuthority();
 
-        // 여기서부터 성공 flag 및 소셜 유저 정보 json 응답 코드 작성
-        // 응답 객체 설정
-        /*response.setStatus(HttpServletResponse.SC_OK);  // 200 OK 응답 설정
-        response.setContentType("application/json");  // 응답 타입을 JSON으로 설정
+        if(existFlag.equals("no")) {
+            String encodedName = URLEncoder.encode(name, StandardCharsets.UTF_8);
 
-        // JSON 형식으로 성공 flag 및 username 반환
-        Map<String, Object> responseBody = new HashMap<>();
-        responseBody.put("success", true);  // 성공 플래그
-        responseBody.put("username", username);  // username
-        responseBody.put("name", name);
-        responseBody.put("email", email);
-        response.sendRedirect("https://clat-project.vercel.app/social-login");
+            MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+            queryParams.add("success", "true");
+            queryParams.add("username", username);
+            queryParams.add("name", encodedName);
+            queryParams.add("email", email);
 
-        // ObjectMapper를 사용하여 JSON으로 변환 후 응답으로 작성
-        ObjectMapper objectMapper = new ObjectMapper();
-        String jsonResponse = objectMapper.writeValueAsString(responseBody);
+            String uri = UriComponentsBuilder
+                    .newInstance()
+                    .scheme("https")
+                    .host("clat-project.vercel.app")
+                    .path("/social-login")
+                    .queryParams(queryParams)
+                    .build()
+                    .toString();
 
-        response.getWriter().write(jsonResponse);  // 응답 전송*/
+            getRedirectStrategy().sendRedirect(request, response, uri);
+        }else {
 
-       /* // 리디렉션 URL 설정
-        String redirectUrl = "https://clat-project.vercel.app/social-login";
-        redirectUrl += "?success=true&username=" + username + "&name=" + name + "&email=" + email;*/
+            String access = jwtUtil.createJwt("access", username, role, 600000L);
+            String refresh = jwtUtil.createJwt("refresh", username, role, 86400000L);
 
-       /* // 리디렉션
-        response.sendRedirect(redirectUrl);*/
+            Token token = new Token(username, refresh, 86400000L);
+            tokenRepository.save(token);
 
-        String encodedName = URLEncoder.encode(name, StandardCharsets.UTF_8);
 
-        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-        queryParams.add("success", "true");
-        queryParams.add("username", username);
-        queryParams.add("name", encodedName);
-        queryParams.add("email", email);
+            //응답 설정
+            response.setHeader("access", access);
+            //response.addCookie(createCookie("refresh", refresh));
+            response.setHeader(HttpHeaders.SET_COOKIE, createCookie("refresh", refresh).toString());
+            response.setStatus(HttpStatus.OK.value());
+        }
+    }
 
-        String uri = UriComponentsBuilder
-                .newInstance()
-                .scheme("https")
-                .host("clat-project.vercel.app")
-                .path("/social-login")
-                .queryParams(queryParams)
-                .build()
-                .toString();
+    private ResponseCookie createCookie (String key, String value){
 
-        getRedirectStrategy().sendRedirect(request,response,uri);
+        return ResponseCookie
+                .from(key, value)
+                .path("/")
+                .secure(true)
+                .httpOnly(true)
+                .maxAge(24*60*60)
+                .sameSite("None")
+                .build();
     }
 }
