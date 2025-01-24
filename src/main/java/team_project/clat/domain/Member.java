@@ -100,4 +100,13 @@ public class Member extends BaseEntity {
 
     public void memberEmailSet(String email) { this.email = email; }
 
+    public void memberSchoolNameSet(String schoolName) {this.schoolName = schoolName; }
+
+    public void memberFilePathSet(String filePath){this.filePath = filePath; }
+
+    public void memberUserTypeSet(UserType userType){this.userType = userType; }
+
+    public void memberUserStatus(UserStatus userStatus){this.userStatus = userStatus; }
+
+
 }

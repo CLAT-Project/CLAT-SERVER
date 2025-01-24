@@ -16,6 +16,7 @@ import team_project.clat.domain.Enum.UserStatus;
 import team_project.clat.domain.Enum.UserType;
 import team_project.clat.domain.Member;
 import team_project.clat.domain.Token;
+import team_project.clat.dto.request.SocialJoinReqDTO;
 import team_project.clat.dto.response.CommonResultResDTO;
 import team_project.clat.dto.request.JoinReqDTO;
 import team_project.clat.dto.response.JoinResDTO;
@@ -87,6 +88,49 @@ public class JoinService {
         tokenRepository.save(token);
 
         JoinResultResDTO result = new JoinResultResDTO("200 OK", "회원가입이 완료되었습니다.", name);
+        return new JoinResDTO(result, access, refresh);
+    }
+
+    public JoinResDTO SocialJoinProcess(SocialJoinReqDTO socialJoinReqDTO, MultipartFile file) throws IOException {
+
+        String username = socialJoinReqDTO.getUsername();
+        String schoolName = socialJoinReqDTO.getSchoolName();
+        UserType userType = socialJoinReqDTO.getUserType();
+
+        Boolean isExist = memberRepository.existsByUsername(username);
+
+        if(isExist){
+            return null;
+        }
+
+        String fileDir = "/app/upload/";
+        String fullPath = null;
+        if(!file.isEmpty()){
+            fullPath = fileDir + file.getOriginalFilename();
+            file.transferTo(new File(fullPath));
+        }
+
+        Member existMember = memberRepository.findByUsername(username);
+        existMember.memberSchoolNameSet(schoolName);
+        existMember.memberFilePathSet(fullPath);
+        existMember.memberUserTypeSet(userType);
+        existMember.memberUserStatusSet(UserStatus.ACTIVE);
+
+        try {
+            memberRepository.save(existMember);
+        }catch (DataIntegrityViolationException e){
+            throw new UsernameDataIntegrityViolationException("중복된 ID가 존재합니다.");
+        }
+
+
+        //토큰 생성
+        String access = jwtUtil.createJwt("access", username, userType.getDescription(), 600000L);
+        String refresh = jwtUtil.createJwt("refresh", username, userType.getDescription(), 86400000L);
+
+        Token token = new Token(username, refresh, 86400000L);
+        tokenRepository.save(token);
+
+        JoinResultResDTO result = new JoinResultResDTO("200 OK", "회원가입이 완료되었습니다.", username);
         return new JoinResDTO(result, access, refresh);
     }
 
