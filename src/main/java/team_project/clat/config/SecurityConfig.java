@@ -103,7 +103,7 @@ public class SecurityConfig {
                 .requestMatchers("/admin").hasRole("ADMIN")
                 .requestMatchers("/chatRoom/").hasRole("PROFESSOR")
                 .requestMatchers("/chatRoom/api/**").hasRole("PROFESSOR")
-                .requestMatchers("/reIssue", "/delete", "/member/findPwd").permitAll()
+                .requestMatchers("/reIssue", "/delete", "/member/findPwd", "/social-join").permitAll()
                 .anyRequest().authenticated());
 
 
