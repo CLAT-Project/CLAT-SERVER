@@ -96,6 +96,8 @@ public class JoinService {
         String username = socialJoinReqDTO.getUsername();
         String schoolName = socialJoinReqDTO.getSchoolName();
         UserType userType = socialJoinReqDTO.getUserType();
+        String email = socialJoinReqDTO.getEmail();
+        String name = socialJoinReqDTO.getName();
 
         Boolean isExist = memberRepository.existsByUsername(username);
 
@@ -110,14 +112,18 @@ public class JoinService {
             file.transferTo(new File(fullPath));
         }
 
-        Member existMember = memberRepository.findByUsername(username);
-        existMember.memberSchoolNameSet(schoolName);
-        existMember.memberFilePathSet(fullPath);
-        existMember.memberUserTypeSet(userType);
-        existMember.memberUserStatusSet(UserStatus.ACTIVE);
+        Member member = Member.builder()
+                            .email(email)
+                            .name(name)
+                            .username(username)
+                            .filePath(fullPath)
+                            .schoolName(schoolName)
+                            .userType(userType)
+                            .userStatus(UserStatus.ACTIVE)
+                            .build();
 
         try {
-            memberRepository.save(existMember);
+            memberRepository.save(member);
         }catch (DataIntegrityViolationException e){
             throw new UsernameDataIntegrityViolationException("중복된 ID가 존재합니다.");
         }

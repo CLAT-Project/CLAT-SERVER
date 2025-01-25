@@ -45,11 +45,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         Member existMember = memberRepository.findByUsername(username);
 
         if(existMember == null){
-            Member member = Member.builder()
+            /*Member member = Member.builder()
                     .username(username)
                     .email(oAuth2Response.getEmail())
                     .name(oAuth2Response.getName()).build();
-            memberRepository.save(member);
+            memberRepository.save(member);*/
 
             OAuthMemberReqDTO authMemberReqDTO = new OAuthMemberReqDTO();
             authMemberReqDTO.setUsername(username);
