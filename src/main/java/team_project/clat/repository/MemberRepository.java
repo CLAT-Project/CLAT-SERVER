@@ -13,6 +13,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     Member findByUsername(String username);
     void deleteByUsername(String username);
 
+    Member findByName(String name);
 
     @Query("select distinct m from Member m left join fetch m.messageList where m.id = :memberId")
     Optional<Member> findByMemberId(@Param("memberId") Long memberId);
