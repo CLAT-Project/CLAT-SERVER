@@ -88,7 +88,6 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             //response.addCookie(createCookie("refresh", refresh));
             response.setHeader(HttpHeaders.SET_COOKIE, createCookie("refresh", refresh).toString());
             response.setStatus(HttpStatus.OK.value());
-            response.sendRedirect("https://clat-project.vercel.app/home");
         }
     }
 
