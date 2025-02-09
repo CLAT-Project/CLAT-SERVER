@@ -2,6 +2,7 @@ package team_project.clat.config.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -85,11 +86,23 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
             //응답 설정
             response.setHeader("access", access);
-            //response.addCookie(createCookie("refresh", refresh));
-            response.setHeader(HttpHeaders.SET_COOKIE, createCookie("refresh", refresh).toString());
+            response.addCookie(createCookie1("refresh", refresh));
+            //response.setHeader(HttpHeaders.SET_COOKIE, createCookie("refresh", refresh).toString());
             response.setStatus(HttpStatus.OK.value());
             response.sendRedirect("https://clat-project.vercel.app/social-redirect");
         }
+    }
+
+    private Cookie createCookie1 (String key, String value){
+
+        Cookie cookie = new Cookie(key, value);
+        cookie.setMaxAge(24*60*60);
+        cookie.setPath("/");
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+        cookie.setDomain("clat-project.vercel.app");
+
+        return cookie;
     }
 
     private ResponseCookie createCookie (String key, String value){
