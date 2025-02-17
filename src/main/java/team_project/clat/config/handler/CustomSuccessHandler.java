@@ -77,7 +77,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             getRedirectStrategy().sendRedirect(request, response, uri);
         }else {
 
-            String access = jwtUtil.createJwt("access", username, role, 600000L);
+            /*String access = jwtUtil.createJwt("access", username, role, 600000L);
             String refresh = jwtUtil.createJwt("refresh", username, role, 86400000L);
 
             Token token = new Token(username, refresh, 86400000L);
@@ -88,8 +88,26 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             //response.setHeader("access", access);
             response.addCookie(createCookie1("refresh", refresh));
             //response.setHeader(HttpHeaders.SET_COOKIE, createCookie("refresh", refresh).toString());
-            response.setStatus(HttpStatus.OK.value());
-            response.sendRedirect("https://clat-project.vercel.app/social-redirect");
+            response.setStatus(HttpStatus.OK.value());*/
+            //response.sendRedirect("https://clat-project.vercel.app/social-redirect");
+
+            String encodedName = URLEncoder.encode(name, StandardCharsets.UTF_8);
+
+            MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+            queryParams.add("username", username);
+            queryParams.add("name", encodedName);
+            queryParams.add("email", email);
+
+            String uri = UriComponentsBuilder
+                    .newInstance()
+                    .scheme("https")
+                    .host("clat-project.vercel.app")
+                    .path("/social-redirect")
+                    .queryParams(queryParams)
+                    .build()
+                    .toString();
+
+            getRedirectStrategy().sendRedirect(request, response, uri);
         }
     }
 
