@@ -27,7 +27,7 @@ public class LoginController {
         return new ResponseEntity<>(commonResultResDTO, HttpStatus.OK);
     }
 
-    @PostMapping("/social-redirect")
+    @PostMapping("/social-redirect1")
     public ResponseEntity<?> socialRedirect(@RequestBody LoginReqDTO loginReqDTO, HttpServletResponse response){
         SocialLoginResDTO socialLoginResDTO = loginService.socialLogin(loginReqDTO);
 
