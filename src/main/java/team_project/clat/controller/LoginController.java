@@ -19,7 +19,7 @@ import team_project.clat.service.LoginService;
 @RequiredArgsConstructor
 public class LoginController {
 
-    LoginService loginService;
+    private final LoginService loginService;
 
     @PostMapping("/login")
     public ResponseEntity<CommonResultResDTO> login(){
