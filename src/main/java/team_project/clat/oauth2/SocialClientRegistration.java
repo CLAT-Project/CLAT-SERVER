@@ -18,6 +18,9 @@ public class SocialClientRegistration {
     @Value("${oauth2.naver.client-secret}")
     String naverSecret;
 
+    @Value("${oauth2.kakao.client-secret}")
+    String kakaoSecret;
+
     public ClientRegistration naverClientRegistration() {
 
         return ClientRegistration.withRegistrationId("naver")
@@ -49,6 +52,24 @@ public class SocialClientRegistration {
                 .jwkSetUri("https://www.googleapis.com/oauth2/v3/certs")
                 .issuerUri("https://accounts.google.com")
                 .userInfoUri("https://www.googleapis.com/oauth2/v3/userinfo")
+                .userNameAttributeName(IdTokenClaimNames.SUB)
+                .build();
+    }
+
+    public ClientRegistration kakaoClientRegistration(){
+
+        log.info("clientSecret : {}", kakaoSecret);
+
+        return ClientRegistration.withRegistrationId("kakao")
+                .clientId("5699f32eb8a13842ed375907835277d7")
+                .clientSecret(kakaoSecret)
+                .redirectUri("https://clat.duckdns.org/login/oauth2/code/kakao")
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
+                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                .scope("profile_nickname")
+                .authorizationUri("https://kauth.kakao.com/oauth/authorize")
+                .tokenUri("https://kauth.kakao.com/oauth/token")
+                .userInfoUri("https://kapi.kakao.com/v2/user/me")
                 .userNameAttributeName(IdTokenClaimNames.SUB)
                 .build();
     }
