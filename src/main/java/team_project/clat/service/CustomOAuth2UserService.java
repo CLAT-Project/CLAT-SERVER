@@ -10,6 +10,7 @@ import team_project.clat.domain.Member;
 import team_project.clat.dto.CustomOAuth2User;
 import team_project.clat.dto.request.OAuthMemberReqDTO;
 import team_project.clat.dto.response.GoogleResDTO;
+import team_project.clat.dto.response.KaKaoResDTO;
 import team_project.clat.dto.response.NaverResDTO;
 import team_project.clat.dto.response.OAuth2Response;
 import team_project.clat.repository.MemberRepository;
@@ -35,8 +36,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
             oAuth2Response = new GoogleResDTO(oAuth2User.getAttributes());
         }
-        else {
+        else if (registrationId.equals("kakao")){
 
+            oAuth2Response = new KaKaoResDTO(oAuth2User.getAttributes());
+        }else {
             return null;
         }
 

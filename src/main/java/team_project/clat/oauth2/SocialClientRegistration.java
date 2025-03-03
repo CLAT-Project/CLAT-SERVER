@@ -70,7 +70,7 @@ public class SocialClientRegistration {
                 .authorizationUri("https://kauth.kakao.com/oauth/authorize")
                 .tokenUri("https://kauth.kakao.com/oauth/token")
                 .userInfoUri("https://kapi.kakao.com/v2/user/me")
-                .userNameAttributeName(IdTokenClaimNames.SUB)
+                .userNameAttributeName("id")
                 .build();
     }
 }
