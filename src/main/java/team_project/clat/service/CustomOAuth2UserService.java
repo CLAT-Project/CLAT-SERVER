@@ -65,6 +65,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             if(oAuth2Response.getEmail()!=null) authMemberReqDTO.setEmail(oAuth2Response.getEmail());
             authMemberReqDTO.setExistFlag("no");
 
+            log.info("authMemberReqDTO.getUsername() {}", authMemberReqDTO.getUsername());
+
             return new CustomOAuth2User(authMemberReqDTO);
         }else {
 
