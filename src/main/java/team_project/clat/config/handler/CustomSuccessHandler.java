@@ -41,12 +41,16 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
+        log.info("소셜 성공 핸들러 시작!!");
+
         //OAuth2User
         CustomOAuth2User customUserDetails = (CustomOAuth2User) authentication.getPrincipal();
         log.info("getPrincipal : {}", authentication.getPrincipal().toString());
 
         String username = customUserDetails.getUsername();
+        log.info("username : {}", customUserDetails.getUsername());
         String email = customUserDetails.getEmail();
+        log.info("email : {}", customUserDetails.getEmail());
         String name = customUserDetails.getName();
         String existFlag = customUserDetails.getExistFlag();
 
