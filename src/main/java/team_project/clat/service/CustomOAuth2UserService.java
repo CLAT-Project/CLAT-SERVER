@@ -50,6 +50,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         log.info("OAuth2 getProvider : {}", oAuth2Response.getProvider());
         log.info("OAuth2 getProviderId : {}", oAuth2Response.getProviderId());
         log.info("OAuth2 username : {}", username);
+        log.info("OAuth2 getEmail : {}", oAuth2Response.getEmail());
+        log.info("OAuth2 getName : {}", oAuth2Response.getName());
         Member existMember = memberRepository.findByUsername(username);
 
         if(existMember == null){
