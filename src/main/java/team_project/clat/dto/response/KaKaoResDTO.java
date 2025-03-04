@@ -13,7 +13,7 @@ public class KaKaoResDTO implements OAuth2Response{
 
     @Override
     public String getProvider() {
-        return (String) attribute.get("id").toString();
+        return (String) attribute.get("id");
     }
 
     @Override
@@ -23,7 +23,7 @@ public class KaKaoResDTO implements OAuth2Response{
 
     @Override
     public String getEmail() {
-        return null;
+        return (String) attribute.get("email");
     }
 
     @Override
