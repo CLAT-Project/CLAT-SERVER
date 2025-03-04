@@ -43,6 +43,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         //OAuth2User
         CustomOAuth2User customUserDetails = (CustomOAuth2User) authentication.getPrincipal();
+        log.info("getPrincipal : {}", authentication.getPrincipal().toString());
 
         String username = customUserDetails.getUsername();
         String email = customUserDetails.getEmail();
