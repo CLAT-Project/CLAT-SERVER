@@ -5,10 +5,16 @@ import java.util.Map;
 public class KaKaoResDTO implements OAuth2Response{
 
     private final Map<String, Object> attribute;
+    private final Map<String, Object> account;
+    private final Map<String, Object> profile;
+    private final String email;
 
     public KaKaoResDTO(Map<String, Object> attribute) {
 
         this.attribute = attribute;
+        account = (Map<String, Object>) attribute.get("kakao_account");
+        profile = (Map<String, Object>) account.get("profile");
+        email = (String) account.get("email");
     }
 
     @Override
@@ -23,11 +29,11 @@ public class KaKaoResDTO implements OAuth2Response{
 
     @Override
     public String getEmail() {
-        return (String) attribute.get("email");
+        return email;
     }
 
     @Override
     public String getName() {
-        return (String) attribute.get("profile_nickname");
+        return String.valueOf(profile.get("nickname"));
     }
 }
