@@ -13,12 +13,12 @@ public class KaKaoResDTO implements OAuth2Response{
 
     @Override
     public String getProvider() {
-        return String.valueOf(attribute.get("id"));
+        return "kakao";
     }
 
     @Override
     public String getProviderId() {
-        return "kakao";
+        return String.valueOf(attribute.get("id"));
     }
 
     @Override

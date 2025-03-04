@@ -1,6 +1,7 @@
 package team_project.clat.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -17,6 +18,7 @@ import team_project.clat.repository.MemberRepository;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private final MemberRepository memberRepository;
@@ -45,6 +47,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         //리소스 서버에서 발급 받은 정보로 사용자를 특정할 아이디값을 만듬
         String username = oAuth2Response.getProvider()+" "+oAuth2Response.getProviderId();
+        log.info("OAuth2 getProvider : {}", oAuth2Response.getProvider());
+        log.info("OAuth2 getProviderId : {}", oAuth2Response.getProviderId());
+        log.info("OAuth2 username : {}", username);
         Member existMember = memberRepository.findByUsername(username);
 
         if(existMember == null){
